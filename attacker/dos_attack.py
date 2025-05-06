@@ -4,7 +4,7 @@ import time
 import os
 import random
 
-target_ip = "192.168.64.2"  # Change this to victim's IP
+target_ip = "192.168.0.12"  # Change this to victim's IP
 packet_size = 1024  # Size of payload
 delay = 0.001  # Time between packets
 
