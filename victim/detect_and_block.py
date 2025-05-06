@@ -8,12 +8,12 @@ import platform
 import os
 
 packet_count = defaultdict(int)
-threshold = 500  # ICMP packets per 5 seconds
+threshold = 200  # ICMP packets per 5 seconds
 
 def monitor(pkt):
     if IP in pkt:
         src_ip = pkt[IP].src
-        print(f"[DEBUG] ICMP packet from {src_ip}")
+        #print(f"[DEBUG] ICMP packet from {src_ip}")
         packet_count[src_ip] += 1
 
 def is_root():
@@ -51,6 +51,7 @@ def main():
 
             print("[*] Checking packet counts...")
             for ip, count in packet_count.items():
+                print(f"[DEBUG] Packet count for {ip}: {count}")
                 if count > threshold:
                     print(f"[!] DoS detected from {ip} — {count} packets")
                     block_ip(ip)
