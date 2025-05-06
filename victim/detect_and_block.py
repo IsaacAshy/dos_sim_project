@@ -8,11 +8,12 @@ import platform
 import os
 
 packet_count = defaultdict(int)
-threshold = 1000  # ICMP packets per 5 seconds
+threshold = 500  # ICMP packets per 5 seconds
 
 def monitor(pkt):
     if IP in pkt:
         src_ip = pkt[IP].src
+        print(f"[DEBUG] ICMP packet from {src_ip}")
         packet_count[src_ip] += 1
 
 def is_root():
