@@ -2,18 +2,25 @@
 from scapy.sendrecv import sniff
 from scapy.layers.inet import IP
 from collections import defaultdict
-from utils import block_ip, unblock_ips
+from IPBlocker import IPBlocker
+from VictimPopup import Alert
 import time
 import platform
 import os
 
 packet_count = defaultdict(int)
 threshold = 200  # ICMP packets per 5 seconds
+ip_blocker = IPBlocker()
+debug = False
+
 
 def monitor(pkt):
     if IP in pkt:
         src_ip = pkt[IP].src
-        #print(f"[DEBUG] ICMP packet from {src_ip}")
+
+        if debug:
+            print(f"[DEBUG] ICMP packet from {src_ip}")
+
         packet_count[src_ip] += 1
 
 def is_root():
@@ -32,9 +39,12 @@ def main():
         print("[!] WARNING: This script must be run with sudo on Linux.")
         return
 
+    alert_screen = Alert()
+
+
     try:
         while True:
-            unblock_ips()
+            ip_blocker.unblock_cycle()
             packet_count.clear()
 
             print("[*] Sniffing ICMP packets for 5 seconds...")
@@ -54,11 +64,13 @@ def main():
                 print(f"[DEBUG] Packet count for {ip}: {count}")
                 if count > threshold:
                     print(f"[!] DoS detected from {ip} — {count} packets")
-                    block_ip(ip)
+                    ip_blocker.block_ip(ip)
+                    alert_screen.send_alert(ip, count)
     except KeyboardInterrupt:
         print("\n[*] Detection stopped by user.")
     except Exception as e:
         print(f"[!] Unexpected error: {e}")
+
 
 if __name__ == "__main__":
     main()
