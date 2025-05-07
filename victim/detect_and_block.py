@@ -3,6 +3,7 @@ from scapy.sendrecv import sniff
 from scapy.layers.inet import IP
 from collections import defaultdict
 from IPBlocker import IPBlocker
+from VictimPopup import Alert
 import time
 import platform
 import os
@@ -38,6 +39,9 @@ def main():
         print("[!] WARNING: This script must be run with sudo on Linux.")
         return
 
+    alert_screen = Alert()
+
+
     try:
         while True:
             ip_blocker.unblock_cycle()
@@ -61,6 +65,7 @@ def main():
                 if count > threshold:
                     print(f"[!] DoS detected from {ip} — {count} packets")
                     ip_blocker.block_ip(ip)
+                    alert_screen.send_alert(ip, count)
     except KeyboardInterrupt:
         print("\n[*] Detection stopped by user.")
     except Exception as e:
