@@ -15,6 +15,10 @@ def attack() -> None:
     # Check to make sure all entries have been filled and of the correct type.
     try:
         target_ip = ip.get()
+
+        if target_ip == "" or len(target_ip) > 15:
+            raise ValueError
+
         packet_size = int(packet.get())
         delay_time = float(delay.get())
     except ValueError:
