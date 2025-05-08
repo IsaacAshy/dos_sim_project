@@ -14,7 +14,13 @@ ip_blocker = IPBlocker()
 debug = False
 
 
-def monitor(pkt):
+def monitor(pkt: dict) -> None:
+    """
+    Monitor how many packets are coming from a source.
+
+    :param pkt: A packet of information.
+    :return: None
+    """
     if IP in pkt:
         src_ip = pkt[IP].src
 
@@ -23,8 +29,14 @@ def monitor(pkt):
 
         packet_count[src_ip] += 1
 
-def is_root():
+
+def is_root() -> bool:
+    """
+    Check if the root is being used.
+    :return: None
+    """
     return os.geteuid() == 0 if platform.system() == "Linux" else True
+
 
 def main():
     print("========================================")
