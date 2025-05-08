@@ -1,9 +1,6 @@
 import os
 from time import sleep
 from tkinter import *
-from tkinter import ttk
-from os import system
-from platform import system
 
 
 class Alert:
